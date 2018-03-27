@@ -46,7 +46,7 @@ app.listen(process.env.PORT, () => {
 
 app.get("/", (req, res) => {
     // return res.status(200).render("test");
-    return res.status(200).render("index",{
+    return res.status(200).render("index", {
         products: [{
             imgURL: '',
             name: 'photoset1',
@@ -61,12 +61,16 @@ app.get("/", (req, res) => {
             imgURL: '',
             name: 'Wrist-Band',
             price: '30'
-        },{
+        }, {
             imgURL: '',
             name: 'PenLight',
             price: '20'
         }]
     });
+});
+
+app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }), (req,res) => {
+
 });
 
 app.get("/auth/github/callback", passport.authenticate("github", { failureRedirect: "/" }), (req, res) => {
@@ -92,7 +96,7 @@ app.get("/product-detail", (req, res) => {
 });
 
 app.get("/cart", (req, res) => {
-    res.status(200).render("cart",{
+    res.status(200).render("cart", {
         products: [{
             imgURL: '',
             name: 'photoset',
