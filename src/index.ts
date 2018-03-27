@@ -22,5 +22,5 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get("/", (req,res) => {
-    res.status(200).render("test");
+    res.status(200).render("index");
 });
