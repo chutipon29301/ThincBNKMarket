@@ -45,10 +45,28 @@ app.listen(process.env.PORT, () => {
 });
 
 app.get("/", (req, res) => {
-    return res.status(200).render("test");
-});
-app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {
-
+    // return res.status(200).render("test");
+    return res.status(200).render("index",{
+        products: [{
+            imgURL: '',
+            name: 'photoset1',
+            price: '40'
+        },
+        {
+            imgURL: '',
+            name: 'T-shirt',
+            price: '50'
+        },
+        {
+            imgURL: '',
+            name: 'Wrist-Band',
+            price: '30'
+        },{
+            imgURL: '',
+            name: 'PenLight',
+            price: '20'
+        }]
+    });
 });
 
 app.get("/auth/github/callback", passport.authenticate("github", { failureRedirect: "/" }), (req, res) => {
@@ -60,7 +78,6 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-
 app.use((req, res, next) => {
     if (req.isAuthenticated()) return next();
     return res.redirect("/");
@@ -68,4 +85,25 @@ app.use((req, res, next) => {
 
 app.get("/secret", (req, res) => {
     return res.status(200).send("Hello World from secret place");
+});
+
+app.get("/product-detail", (req, res) => {
+    res.status(200).render("product-detail");
+});
+
+app.get("/cart", (req, res) => {
+    res.status(200).render("cart",{
+        products: [{
+            imgURL: '',
+            name: 'photoset',
+            price: '40',
+            quantity: '2'
+        },
+        {
+            imgURL: '',
+            name: 't-shirt',
+            price: '50',
+            quantity: '1'
+        }]
+    });
 });
