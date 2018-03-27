@@ -15,7 +15,12 @@ app.use(urlencoded({
 }));
 app.use(json());
 
+app.set("view engine","pug");
+
 app.listen(process.env.PORT, () => {
     console.log('Listening on port ' + process.env.PORT);
 });
 
+app.get("/", (req,res) => {
+    res.status(200).render("test");
+});
