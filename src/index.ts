@@ -11,6 +11,8 @@ import { router as stock } from "./stock";
 import { router as order } from "./order";
 import { StockManager } from "./Manager/StockManager";
 import { UserManager, User } from "./Manager/UserManager";
+import { OrderManager } from "./Manager/OrderManager";
+import { Observable } from "rx";
 
 config();
 
@@ -63,7 +65,7 @@ app.use("/order", order);
 
 app.get("/", (req, res) => {
     StockManager.getInstance().findAll().subscribe(stocks => {
-        stocks.map(function(stock){
+        stocks.map(function (stock) {
             return stock.getInterface();
         });
         return res.status(200).render("index", {
@@ -81,7 +83,7 @@ app.get("/auth/github/callback", passport.authenticate("github", { failureRedire
 
 app.get("/logout", (req, res) => {
     req.logout();
-    res.redirect("/");
+    return res.redirect("/");
 });
 
 app.use((req, res, next) => {
@@ -89,28 +91,20 @@ app.use((req, res, next) => {
     return res.redirect("/");
 });
 
-app.get("/secret", (req, res) => {
-    return res.status(200).send("Hello World from secret place");
-});
-
-app.get("/product-detail", (req, res) => {
-    res.status(200).render("product-detail");
-});
-
 app.get("/cart", (req, res) => {
-    res.status(200).render("cart", {
-        products: [{
-            imgURL: 'https://cdn-images-1.medium.com/max/1125/1*J8PRGgmTqSDHMZEIziLPQA.jpeg',
-            name: 'photoset1',
-            price: '40',
-            quantity: '2'
-        },
-        {
-            imgURL: 'https://i.pinimg.com/originals/48/1e/6e/481e6e7006cc1b5cfc82fc15eef81f22.jpg',
-            name: 'T-shirt',
-            price: '50',
-            quantity: '1'
-        }],
-        status: req.isAuthenticated()
+    OrderManager.getInstance().findUserOrder(req.user.id).flatMap(orders => {
+        return Observable.forkJoin(orders.map(order => order.getCartInterface()));
+    }).subscribe(orders => {
+        return res.status(200).render("cart", {
+            products: orders,
+            status: req.isAuthenticated()
+        });
+    }, err => {
+        res.status(500).send(err);
+    }, () => {
+        return res.status(200).render("cart", {
+            products: [],
+            status: req.isAuthenticated()
+        });
     });
 });

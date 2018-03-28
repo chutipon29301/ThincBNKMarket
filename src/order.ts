@@ -5,7 +5,7 @@ export const router = Router();
 
 router.post("/add", (req, res) => {
 
-    if (!(req.body.email && req.body.stockID && req.body.quantity)) {
+    if (!(req.body.id && req.body.stockID && req.body.quantity)) {
         return res.status(400).send({
             err: 0,
             msg: "Bad Request"
@@ -13,7 +13,7 @@ router.post("/add", (req, res) => {
     }
 
     let newOrder = new Order({
-        email: req.body.email,
+        userID: req.body.id,
         stockID: req.body.stockID,
         quantity: req.body.quantity
     });

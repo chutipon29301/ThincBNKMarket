@@ -1,6 +1,7 @@
 import * as DataStore from "nedb";
 import { join } from "path";
 import { Observable } from "rx";
+import { StockManager } from "./StockManager";
 
 export class OrderManager {
 
@@ -29,10 +30,10 @@ export class OrderManager {
         });
     }
 
-    findUserOrder(email: string): Observable<Order[]>{
+    findUserOrder(id: string): Observable<Order[]>{
         return Observable.create(observer => {
             this.db.find({
-                email: email
+                userID: id
             }).exec((err, document) => {
                 if(err) observer.onError(err);
                 observer.onNext(document.map(doc => new Order(doc as OrderInterface)));
@@ -78,8 +79,15 @@ export class OrderManager {
 
 interface OrderInterface {
     _id?: string,
-    email: string,
+    userID: string,
     stockID: string,
+    quantity: number
+}
+
+interface CartInterface {
+    imgURL: string,
+    name: string,
+    price: number,
     quantity: number
 }
 
@@ -99,4 +107,16 @@ export class Order {
         return this.order._id;
     }
 
+    getCartInterface(): Observable<CartInterface>{
+        console.log("IN");
+        return StockManager.getInstance().find(this.order.stockID).map(stock => {
+            console.log(stock);
+            return {
+                imgURL: stock.getInterface().imgURL,
+                name: stock.getInterface().name,
+                price: stock.getInterface().price,
+                quantity: this.order.quantity
+            }
+        });
+    }
 }
