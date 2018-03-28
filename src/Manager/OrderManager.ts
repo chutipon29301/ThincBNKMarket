@@ -63,10 +63,10 @@ export class OrderManager {
         });
     }
 
-    delete(order: Order): Observable<number> {
+    delete(id: string): Observable<number> {
         return Observable.create(observer => {
             this.db.remove({
-                _id: order.getID()
+                _id: id
             }, {}, (err, number) => {
                 if (err) observer.onError(err);
                 observer.onNext(number);
@@ -77,9 +77,9 @@ export class OrderManager {
 }
 
 interface OrderInterface {
-    _id: string,
+    _id?: string,
     email: string,
-    orderID: string,
+    stockID: string,
     quantity: number
 }
 

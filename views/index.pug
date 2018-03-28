@@ -1,39 +1,43 @@
+mixin nav
+	img.header-icon1.js-show-header-dropdown(src='images/icons/icon-header-01.png', alt='ICON')
+	// Header cart noti
+	.header-cart.header-dropdown
+		ul.header-cart-wrapitem
+		.header-cart-buttons
+			.header-cart-wrapbtn
+				// Button
+				a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
+					| View Cart
+			.header-cart-wrapbtn
+				// Button
+				if status 
+					a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
+						| Log out
+				else
+					a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
+						| Log in
+
 doctype html
 html(lang='en')
 	head
-		title Home 02
+		title Thinc
 		meta(charset='UTF-8')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
-		// ===============================================================================================
 		link(rel='icon', type='image/png', href='images/icons/favicon.png')
-		// ===============================================================================================
 		link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
-		// ===============================================================================================
 		link(rel='icon', type='image/png', href='images/icons/favicon.png')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/bootstrap/css/bootstrap.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='fonts/font-awesome-4.7.0/css/font-awesome.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='fonts/themify/themify-icons.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='fonts/Linearicons-Free-v1.0.0/icon-font.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='fonts/elegant-font/html-css/style.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/animate/animate.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/css-hamburgers/hamburgers.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/animsition/css/animsition.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/select2/select2.min.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='vendor/slick/slick.css')
-		// ===============================================================================================
 		link(rel='stylesheet', type='text/css', href='css/util.css')
 		link(rel='stylesheet', type='text/css', href='css/main.css')
-		// ===============================================================================================
 	body.animsition
 		// header fixed
 		.wrap_header.fixed-header2.trans-0-4
@@ -43,19 +47,7 @@ html(lang='en')
 			// Header Icon
 			.header-icons
 				.header-wrapicon2.m-l-30
-							img.header-icon1.js-show-header-dropdown(src='images/icons/icon-header-01.png', alt='ICON')
-							// Header cart noti
-							.header-cart.header-dropdown
-								ul.header-cart-wrapitem
-								.header-cart-buttons
-									.header-cart-wrapbtn
-										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| View Cart
-									.header-cart-wrapbtn
-										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| Log in
+					+nav
 					
 		// Header
 		header.header2
@@ -73,24 +65,8 @@ html(lang='en')
 						img(src='http://www.jobthaiweb.com/company/picture/bnk48office_logo.gif?d=0', alt='IMG-LOGO')
 					.topbar-child2
 						.header-wrapicon2.m-l-30
-							img.header-icon1.js-show-header-dropdown(src='images/icons/icon-header-01.png', alt='ICON')
-							// Header cart noti
-							.header-cart.header-dropdown
-								ul.header-cart-wrapitem
-								.header-cart-buttons
-									.header-cart-wrapbtn
-										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| View Cart
-									.header-cart-wrapbtn
-										// Button
-										if status 
-											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
-												| Log out
-										else
-											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
-												| Log in
-						
+							+nav
+				
 				.wrap_header
 					// Header Icon
 					.header-icons
@@ -107,23 +83,7 @@ html(lang='en')
 							img.header-icon1(src='images/icons/icon-header-01.png', alt='ICON')
 						span.linedivide2
 						.header-wrapicon2
-							img.header-icon1.js-show-header-dropdown(src='images/icons/icon-header-02.png', alt='ICON')
-							span.header-icons-noti 0
-							// Header cart noti
-							.header-cart.header-dropdown
-								.header-cart-buttons
-									.header-cart-wrapbtn
-										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| View Cart
-									.header-cart-wrapbtn
-										// Button
-										if status 
-											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
-												| Log out
-										else
-											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
-												| Log in
+							+nav
 					.btn-show-menu-mobile.hamburger.hamburger--squeeze
 						span.hamburger-box
 							span.hamburger-inner
@@ -272,22 +232,6 @@ html(lang='en')
 							// Button
 							button.flex-c-m.size2.bg4.bo-rad-23.hov1.m-text3.trans-0-4
 								| Subscribe
-			.t-center.p-l-15.p-r-15
-				a(href='#')
-					img.h-size2(src='images/icons/paypal.png', alt='IMG-PAYPAL')
-				a(href='#')
-					img.h-size2(src='images/icons/visa.png', alt='IMG-VISA')
-				a(href='#')
-					img.h-size2(src='images/icons/mastercard.png', alt='IMG-MASTERCARD')
-				a(href='#')
-					img.h-size2(src='images/icons/express.png', alt='IMG-EXPRESS')
-				a(href='#')
-					img.h-size2(src='images/icons/discover.png', alt='IMG-DISCOVER')
-				.t-center.s-text8.p-t-20
-					| Copyright © 2018 All rights reserved. | This template is made with 
-					i.fa.fa-heart-o(aria-hidden='true')
-					|  by 
-					a(href='https://colorlib.com', target='_blank') Colorlib
 		// Back to top
 		#myBtn.btn-back-to-top.bg0-hov
 			span.symbol-btn-back-to-top
@@ -303,28 +247,20 @@ html(lang='en')
 						img(src='http://resource.nationtv.tv/photo_news/2018/03/27/640_ifhja5de69facgb8ah9ae.jpg', alt='IMG')
 					.video-mo-01
 						iframe(src='https://www.youtube.com/embed/7ASjpSbmz0A?rel=0&showinfo=0', allowfullscreen='')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/jquery/jquery-3.2.1.min.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/animsition/js/animsition.min.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/bootstrap/js/popper.js')
 		script(type='text/javascript', src='vendor/bootstrap/js/bootstrap.min.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/select2/select2.min.js')
 		script(type='text/javascript').
 			$(".selection-1").select2({
 			minimumResultsForSearch: 20,
 			dropdownParent: $('#dropDownSelect1')
 			});
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/slick/slick.min.js')
 		script(type='text/javascript', src='js/slick-custom.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/countdowntime/countdowntime.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/lightbox2/js/lightbox.min.js')
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/sweetalert/sweetalert.min.js')
 		script(type='text/javascript').
 			$('.block2-btn-addcart').each(function(){
@@ -339,9 +275,7 @@ html(lang='en')
 			swal(nameProduct, "is added to wishlist !", "success");
 			});
 			});
-		// ===============================================================================================
 		script(type='text/javascript', src='vendor/parallax100/parallax100.js')
 		script(type='text/javascript').
 			$('.parallax100').parallax100();
-		// ===============================================================================================
 		script(src='js/main.js')
