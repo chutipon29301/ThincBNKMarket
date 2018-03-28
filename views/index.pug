@@ -84,8 +84,12 @@ html(lang='en')
 											| View Cart
 									.header-cart-wrapbtn
 										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| Log in
+										if status 
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
+												| Log out
+										else
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
+												| Log in
 						
 				.wrap_header
 					// Header Icon
@@ -114,8 +118,12 @@ html(lang='en')
 											| View Cart
 									.header-cart-wrapbtn
 										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='#')
-											| Check Out
+										if status 
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
+												| Log out
+										else
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
+												| Log in
 					.btn-show-menu-mobile.hamburger.hamburger--squeeze
 						span.hamburger-box
 							span.hamburger-inner

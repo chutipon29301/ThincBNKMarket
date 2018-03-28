@@ -69,7 +69,8 @@ app.get("/", (req, res) => {
             imgURL: 'http://img.online-station.net/_content/2018/0307/gallery/1520395852.jpg',
             name: 'PenLight',
             price: '20'
-        }]
+        }],
+        status : req.isAuthenticated()
     });
 });
 
@@ -78,7 +79,7 @@ app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] 
 });
 
 app.get("/auth/github/callback", passport.authenticate("github", { failureRedirect: "/" }), (req, res) => {
-    res.redirect("/secret");
+    res.redirect("/");
 });
 
 app.get("/logout", (req, res) => {
@@ -112,6 +113,7 @@ app.get("/cart", (req, res) => {
             name: 'T-shirt',
             price: '50',
             quantity: '1'
-        }]
+        }],
+        status : req.isAuthenticated()
     });
 });

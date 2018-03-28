@@ -53,8 +53,12 @@ html(lang='en')
 											| Home
 									.header-cart-wrapbtn
 										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| Log in
+										if status 
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
+												| Log out
+										else
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
+												| Log in
 			// Header Mobile
 			.wrap_header_mobile
 				// Logo moblie
