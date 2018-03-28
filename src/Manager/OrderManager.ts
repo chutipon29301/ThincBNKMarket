@@ -9,7 +9,7 @@ export class OrderManager {
     private db: DataStore;
 
     private constructor(){
-        this.db = new DataStore({ filename: join(__dirname, "../database/order.db"), autoload: true });
+        this.db = new DataStore({ filename: join(__dirname, "../database/orders.db"), autoload: true });
     }
 
     static getInstance() {
@@ -19,35 +19,25 @@ export class OrderManager {
         return OrderManager.instance;
     }
 
-    isExistInDB(order: Order): Observable<boolean> {
+    add(order: Order): Observable<boolean>{
         return Observable.create(observer => {
-            this.db.findOne({
-                _id: order.getID()
-            }, (err, document) => {
+            this.db.insert(order.getInterface(), (err, document) => {
                 if (err) observer.onError(err);
-                if (!document) observer.onNext(false);
-                else observer.onNext(true);
+                observer.onNext(true);
                 observer.onCompleted();
             });
         });
     }
 
-    add(order: Order): Observable<boolean>{
-        return this.isExistInDB(order).flatMap(isExist => {
-            if (!isExist) {
-                return Observable.create(observer => {
-                    this.db.insert(order.getInterface(), (err, document) => {
-                        if (err) observer.onError(err);
-                        observer.onNext(true);
-                        observer.onCompleted();
-                    });
-                });
-            } else {
-                return Observable.create(observer => {
-                    observer.onNext(false);
-                    observer.onCompleted();
-                });
-            }
+    findUserOrder(email: string): Observable<Order[]>{
+        return Observable.create(observer => {
+            this.db.find({
+                email: email
+            }).exec((err, document) => {
+                if(err) observer.onError(err);
+                observer.onNext(document.map(doc => new Order(doc as OrderInterface)));
+                observer.onCompleted();
+            });
         });
     }
 
@@ -88,9 +78,9 @@ export class OrderManager {
 
 interface OrderInterface {
     _id: string,
-    imgURL: string,
-    name: string,
-    price: number
+    email: string,
+    orderID: string,
+    quantity: number
 }
 
 export class Order {
