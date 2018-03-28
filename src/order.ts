@@ -88,6 +88,33 @@ router.post("/update", (req, res) => {
     });
 });
 
+router.get("/addToCart", (req, res) => {
+    if (!(req.user && req.query.id)) {
+        return res.status(400).send({
+            err: 0,
+            msg: "Bad Request"
+        });
+    }
+    OrderManager.getInstance().checkExistOrder(req.user.id, req.query.stockID).flatMap(isExist => {
+        if (isExist) {
+            return OrderManager.getInstance().incrementQuantity(req.user.id, req.query.stockID);
+        } else {
+            let order = new Order({
+                userID: req.user.id,
+                stockID: req.query.stockID,
+                quantity: 1
+            });
+            return OrderManager.getInstance().add(order);
+        }
+    }).subscribe(_ => {
+        return res.status(200).send({
+            msg: "OK"
+        });
+    }, err => {
+        return res.status(500).send(err);
+    });
+});
+
 router.post("/all", (req, res) => {
     OrderManager.getInstance().findAll().subscribe(orders => {
         return res.status(200).send({

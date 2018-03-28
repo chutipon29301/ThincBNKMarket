@@ -30,6 +30,20 @@ export class OrderManager {
         });
     }
 
+    checkExistOrder(userID: string, stockID: string): Observable<boolean> {
+        return Observable.create(observer => {
+            this.db.findOne({
+                userID: userID,
+                stockID: stockID
+            }, (err, document) => {
+                if (err) observer.onError(err);
+                if (document) observer.onNext(true);
+                else observer.onNext(false);
+                observer.onCompleted();
+            });
+        });
+    }
+
     findUserOrder(id: string): Observable<Order[]> {
         return Observable.create(observer => {
             this.db.find({
@@ -50,6 +64,19 @@ export class OrderManager {
                 if (err) observer.onError(err);
                 observer.onNext(new Order(document as OrderInterface));
                 observer.onCompleted()
+            });
+        });
+    }
+
+    findByUserID(userID: string, stockID: string): Observable<Order> {
+        return Observable.create(observer => {
+            this.db.findOne({
+                userID: userID,
+                stockID: stockID
+            }, (err, document) => {
+                if (err) observer.onError(err);
+                observer.onNext(new Order(document as OrderInterface));
+                observer.onCompleted();
             });
         });
     }
@@ -93,6 +120,12 @@ export class OrderManager {
             );
         });
     }
+
+    incrementQuantity(userID: string, stockID: string): Observable<boolean> {
+        return this.findByUserID(userID, stockID).flatMap(order => {
+            return this.updateQuantity(userID, stockID, order.getQuantity() + 1);
+        });
+    }
 }
 
 interface OrderInterface {
@@ -123,6 +156,10 @@ export class Order {
 
     getID(): string {
         return this.order._id;
+    }
+
+    getQuantity(): number{
+        return this.order.quantity
     }
 
     getCartInterface(): Observable<CartInterface> {
