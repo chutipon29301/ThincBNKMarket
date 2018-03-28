@@ -108,9 +108,7 @@ export class Order {
     }
 
     getCartInterface(): Observable<CartInterface>{
-        console.log("IN");
         return StockManager.getInstance().find(this.order.stockID).map(stock => {
-            console.log(stock);
             return {
                 imgURL: stock.getInterface().imgURL,
                 name: stock.getInterface().name,
