@@ -5,6 +5,8 @@ import * as morgan from "morgan";
 import { Strategy } from "passport-github2";
 import { config } from "dotenv";
 import { urlencoded, json } from "body-parser";
+import { join } from "path";
+import { router as user } from "./user";
 
 config();
 
@@ -26,6 +28,7 @@ passport.use(new Strategy({
     });
 }));
 
+
 const app = express();
 
 app.use(morgan("dev"));
@@ -44,8 +47,9 @@ app.listen(process.env.PORT, () => {
     console.log('Listening on port ' + process.env.PORT);
 });
 
+app.use("/user", user);
+
 app.get("/", (req, res) => {
-    // return res.status(200).render("test");
     return res.status(200).render("index", {
         products: [{
             imgURL: '',
@@ -69,7 +73,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }), (req,res) => {
+app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }), (req, res) => {
 
 });
 
