@@ -9,7 +9,7 @@ export class OrderManager {
 
     private db: DataStore;
 
-    private constructor(){
+    private constructor() {
         this.db = new DataStore({ filename: join(__dirname, "../database/orders.db"), autoload: true });
     }
 
@@ -20,7 +20,7 @@ export class OrderManager {
         return OrderManager.instance;
     }
 
-    add(order: Order): Observable<boolean>{
+    add(order: Order): Observable<boolean> {
         return Observable.create(observer => {
             this.db.insert(order.getInterface(), (err, document) => {
                 if (err) observer.onError(err);
@@ -30,12 +30,12 @@ export class OrderManager {
         });
     }
 
-    findUserOrder(id: string): Observable<Order[]>{
+    findUserOrder(id: string): Observable<Order[]> {
         return Observable.create(observer => {
             this.db.find({
                 userID: id
             }).exec((err, document) => {
-                if(err) observer.onError(err);
+                if (err) observer.onError(err);
                 observer.onNext(document.map(doc => new Order(doc as OrderInterface)));
                 observer.onCompleted();
             });
@@ -75,6 +75,24 @@ export class OrderManager {
             });
         });
     }
+
+    updateQuantity(userID: string, stockID: string, quantity: number): Observable<boolean> {
+        return Observable.create(observer => {
+            this.db.update({
+                userID: userID,
+                stockID: stockID
+            }, {
+                    $set: {
+                        quantity: quantity
+                    }
+                }, {}, (err, numberOfUpdate) => {
+                    if (err) observer.onError(err);
+                    observer.onNext(true);
+                    observer.onCompleted();
+                }
+            );
+        });
+    }
 }
 
 interface OrderInterface {
@@ -102,12 +120,12 @@ export class Order {
     getInterface(): OrderInterface {
         return this.order;
     }
-    
-    getID(): string{
+
+    getID(): string {
         return this.order._id;
     }
 
-    getCartInterface(): Observable<CartInterface>{
+    getCartInterface(): Observable<CartInterface> {
         return StockManager.getInstance().find(this.order.stockID).map(stock => {
             return {
                 imgURL: stock.getInterface().imgURL,

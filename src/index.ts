@@ -2,7 +2,6 @@ import * as express from "express";
 import * as passport from "passport";
 import * as session from "express-session";
 import * as morgan from "morgan";
-import * as _ from "lodash";
 import { Strategy } from "passport-github2";
 import { config } from "dotenv";
 import { urlencoded, json } from "body-parser";
