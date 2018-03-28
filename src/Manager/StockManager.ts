@@ -73,10 +73,10 @@ export class StockManager {
         });
     }
 
-    delete(stock: Stock): Observable<number> {
+    delete(id: string): Observable<number> {
         return Observable.create(observer => {
             this.db.remove({
-                _id: stock.getID()
+                _id: id
             }, {}, (err, number) => {
                 if (err) observer.onError(err);
                 observer.onNext(number);

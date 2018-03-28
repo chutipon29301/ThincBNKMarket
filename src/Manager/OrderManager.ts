@@ -1,6 +1,7 @@
 import * as DataStore from "nedb";
 import { join } from "path";
 import { Observable } from "rx";
+import { StockManager } from "./StockManager";
 
 export class OrderManager {
 
@@ -9,7 +10,7 @@ export class OrderManager {
     private db: DataStore;
 
     private constructor(){
-        this.db = new DataStore({ filename: join(__dirname, "../database/order.db"), autoload: true });
+        this.db = new DataStore({ filename: join(__dirname, "../database/orders.db"), autoload: true });
     }
 
     static getInstance() {
@@ -19,35 +20,25 @@ export class OrderManager {
         return OrderManager.instance;
     }
 
-    isExistInDB(order: Order): Observable<boolean> {
+    add(order: Order): Observable<boolean>{
         return Observable.create(observer => {
-            this.db.findOne({
-                _id: order.getID()
-            }, (err, document) => {
+            this.db.insert(order.getInterface(), (err, document) => {
                 if (err) observer.onError(err);
-                if (!document) observer.onNext(false);
-                else observer.onNext(true);
+                observer.onNext(true);
                 observer.onCompleted();
             });
         });
     }
 
-    add(order: Order): Observable<boolean>{
-        return this.isExistInDB(order).flatMap(isExist => {
-            if (!isExist) {
-                return Observable.create(observer => {
-                    this.db.insert(order.getInterface(), (err, document) => {
-                        if (err) observer.onError(err);
-                        observer.onNext(true);
-                        observer.onCompleted();
-                    });
-                });
-            } else {
-                return Observable.create(observer => {
-                    observer.onNext(false);
-                    observer.onCompleted();
-                });
-            }
+    findUserOrder(id: string): Observable<Order[]>{
+        return Observable.create(observer => {
+            this.db.find({
+                userID: id
+            }).exec((err, document) => {
+                if(err) observer.onError(err);
+                observer.onNext(document.map(doc => new Order(doc as OrderInterface)));
+                observer.onCompleted();
+            });
         });
     }
 
@@ -73,10 +64,10 @@ export class OrderManager {
         });
     }
 
-    delete(order: Order): Observable<number> {
+    delete(id: string): Observable<number> {
         return Observable.create(observer => {
             this.db.remove({
-                _id: order.getID()
+                _id: id
             }, {}, (err, number) => {
                 if (err) observer.onError(err);
                 observer.onNext(number);
@@ -87,10 +78,17 @@ export class OrderManager {
 }
 
 interface OrderInterface {
-    _id: string,
+    _id?: string,
+    userID: string,
+    stockID: string,
+    quantity: number
+}
+
+interface CartInterface {
     imgURL: string,
     name: string,
-    price: number
+    price: number,
+    quantity: number
 }
 
 export class Order {
@@ -109,4 +107,14 @@ export class Order {
         return this.order._id;
     }
 
+    getCartInterface(): Observable<CartInterface>{
+        return StockManager.getInstance().find(this.order.stockID).map(stock => {
+            return {
+                imgURL: stock.getInterface().imgURL,
+                name: stock.getInterface().name,
+                price: stock.getInterface().price,
+                quantity: this.order.quantity
+            }
+        });
+    }
 }
