@@ -9,7 +9,7 @@ export class StockManager {
     private db: DataStore;
 
     private constructor(){
-        this.db = new DataStore({ filename: join(__dirname, "../database/stock.db"), autoload: true });
+        this.db = new DataStore({ filename: join(__dirname, "../database/stocks.db"), autoload: true });
     }
 
     static getInstance() {

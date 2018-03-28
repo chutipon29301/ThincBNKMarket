@@ -37,7 +37,7 @@ html(lang='en')
 			.container-menu-header
 				.wrap_header
 					// Logo
-					a.logo(href='index.html')
+					a.logo(href='/')
 						img(src='http://www.jobthaiweb.com/company/picture/bnk48office_logo.gif?d=0', alt='IMG-LOGO')
 					// Header Icon
 					.header-icons
@@ -53,12 +53,16 @@ html(lang='en')
 											| Home
 									.header-cart-wrapbtn
 										// Button
-										a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='cart')
-											| Log in
+										if status 
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='logout')
+												| Log out
+										else
+											a.flex-c-m.size1.bg1.bo-rad-20.hov1.s-text1.trans-0-4(href='auth/github')
+												| Log in
 			// Header Mobile
 			.wrap_header_mobile
 				// Logo moblie
-				a.logo-mobile(href='index.html')
+				a.logo-mobile(href='/')
 					img(src='images/icons/logo.png', alt='IMG-LOGO')
 				// Button show menu
 				.btn-show-menu
@@ -98,7 +102,7 @@ html(lang='en')
 			h2.l-text2.t-center
 				| Cart
 		// Cart
-		section.cart.bgwhite.p-t-70.p-b-100
+		section.cart.bgwhite.p-t-70.p-s-70
 			.container
 				// Cart item
 				.container-table-cart.pos-relative
@@ -108,8 +112,9 @@ html(lang='en')
 								th.column-1
 								th.column-2 Product
 								th.column-3 Price
-								th.column-4.p-l-70 Quantity
+								th.column-4.p-l-30 Quantity
 								th.column-5 Total
+								th.column-6 Delete
 							each product in products
 								tr.table-row
 									td.column-1
@@ -125,11 +130,16 @@ html(lang='en')
 											button.btn-num-product-up.color1.flex-c-m.size7.bg8.eff2
 												i.fs-12.fa.fa-plus(aria-hidden='true')
 									td.column-5= "$"+product.price
+									td.column-6
+										.flex-w.flex-m.w-full-sm
+										.size6
+											a.flex-c-m.sizefull.color1.bo-rad-23.hov1.s-text1.trans-0-4(href='cart')
+												| x
 				.flex-w.flex-sb-m.p-t-25.p-b-25.bo8.p-l-35.p-r-60.p-lr-15-sm
 					.flex-w.flex-m.w-full-sm
 					.size10.trans-0-4.m-t-10.m-b-10
 						// Button
-						button.flex-c-m.sizefull.bg1.bo-rad-23.hov1.s-text1.trans-0-4
+						a.flex-c-m.sizefull.bg1.bo-rad-23.hov1.s-text1.trans-0-4(href='cart')
 							| Update Cart
 				
 		// Footer
