@@ -103,7 +103,7 @@ html(lang='en')
 								th.column-5 Total
 								th.column-6 Delete
 							each product in products
-								tr.table-row
+								tr.table-row(id="cart")
 									td.column-1
 										.cart-img-product.b-rad-4.o-f-hidden
 											img(src= product.imgURL, alt='IMG-PRODUCT')
@@ -113,7 +113,7 @@ html(lang='en')
 										.flex-w.bo5.of-hidden.w-size17
 											button.btn-num-product-down.color1.flex-c-m.size7.bg8.eff2
 												i.fs-12.fa.fa-minus(aria-hidden='true')
-											input.size8.m-text18.t-center.num-product(type='number', name='num-product1', value=product.quantity)
+											input.size8.m-text18.t-center.num-product.a(type='text', name= product.name , value=product.quantity)
 											button.btn-num-product-up.color1.flex-c-m.size7.bg8.eff2
 												i.fs-12.fa.fa-plus(aria-hidden='true')
 									td.column-5= "$"+product.price
@@ -126,8 +126,22 @@ html(lang='en')
 					.flex-w.flex-m.w-full-sm
 					.size10.trans-0-4.m-t-10.m-b-10
 						// Button
-						a.flex-c-m.sizefull.bg1.bo-rad-23.hov1.s-text1.trans-0-4(href='cart')
-							| Update Cart
+						script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+						script.
+							var newVal = $('input[name="num-product1"]').val();
+							$(document).ready(function() {
+								$('#btn').click(function(){
+									var a = document.getElementsByClassName("a");
+									var b = [];
+									console.log(a.length)
+									for(let i = 0; i < a.length; i++){
+										b.push(a[i].value);
+									}
+									console.log(b);
+								}); 
+							});
+						a.flex-c-m.sizefull.bg1.bo-rad-23.hov1.s-text1.trans-0-4(id='btn')
+							= "Update Cart"
 				
 		// Footer
 		footer.bg6.p-t-45.p-b-43.p-l-45.p-r-45

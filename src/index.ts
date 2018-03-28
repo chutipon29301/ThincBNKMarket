@@ -67,7 +67,7 @@ app.get("/", (req, res) => {
     StockManager.getInstance().findAll().subscribe(stocks => {
         stocks.map(function (stock) {
             return stock.getInterface();
-        });
+        })
         return res.status(200).render("index", {
             products: stocks.map(stock => stock.getInterface()),
             status: req.isAuthenticated()
