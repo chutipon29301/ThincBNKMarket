@@ -179,7 +179,19 @@ html(lang='en')
 														i.icon-wishlist.icon_heart.dis-none(aria-hidden='true')
 													.block2-btn-addcart.w-size1.trans-0-4
 														// Button
-														button.flex-c-m.size1.bg4.bo-rad-23.hov1.s-text1.trans-0-4
+														script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+														script.
+															var a = document.getElementsByClassName("a");
+															$(document).ready(function() {
+																console.log(a.length)
+																for(let i=0;i<a.length;i++){
+																	console.log(a[i].id)
+																	$(a[i].id).click(function(){
+																		console.log("click"+a[i].id)
+																	});
+																}
+															});
+														button.flex-c-m.size1.bg4.bo-rad-23.hov1.s-text1.trans-0-4.a(id=product.name)
 															| Add to Cart
 											.block2-txt.p-t-20
 												a.block2-name.dis-block.s-text3.p-b-5(href='#')
@@ -192,9 +204,9 @@ html(lang='en')
 			.overlay0.p-t-190.p-b-200
 				.flex-col-c-m.p-l-15.p-r-15
 					span.m-text9.p-t-45.fs-20-sm
-						| The Beauty
+						| S H O N I C H I
 					h3.l-text1.fs-35-sm
-						| Lookbook
+						| วันแรกแห่งการเริ่มต้น
 					span.btn-play.s-text4.hov5.cs-pointer.p-t-25(data-toggle='modal', data-target='#modal-video-01')
 						i.fa.fa-play(aria-hidden='true')
 						| 					Play Video
