@@ -7,6 +7,7 @@ import { config } from "dotenv";
 import { urlencoded, json } from "body-parser";
 import { join } from "path";
 import { router as user } from "./user";
+import { router as stock } from "./stock";
 
 config();
 
@@ -48,6 +49,7 @@ app.listen(process.env.PORT, () => {
 });
 
 app.use("/user", user);
+app.use("/stock", stock);
 
 app.get("/", (req, res) => {
     return res.status(200).render("index", {

@@ -87,7 +87,7 @@ export class StockManager {
 }
 
 interface StockInterface {
-    _id: string,
+    _id?: string,
     imgURL: string,
     name: string,
     price: number
