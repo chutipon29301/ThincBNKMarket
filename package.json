@@ -2,11 +2,11 @@
   "name": "bnkmarket",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --watch",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "node dist/bundle.js"
   },
   "repository": {
     "type": "git",
