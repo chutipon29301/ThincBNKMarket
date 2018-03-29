@@ -11,7 +11,7 @@ import { router as stock } from "./stock";
 import { router as order } from "./order";
 import { StockManager } from "./Manager/StockManager";
 import { UserManager, User } from "./Manager/UserManager";
-import { OrderManager } from "./Manager/OrderManager";
+import { OrderManager, CartInterface } from "./Manager/OrderManager";
 import { Observable } from "rx";
 
 config();
@@ -78,7 +78,7 @@ app.get("/", (req, res) => {
 app.get("/auth/github", passport.authenticate("github", { scope: ["user:email"] }));
 
 app.get("/auth/github/callback", passport.authenticate("github", { failureRedirect: "/" }), (req, res) => {
-    res.redirect("/");
+    return res.redirect("/");
 });
 
 app.get("/logout", (req, res) => {
@@ -87,23 +87,21 @@ app.get("/logout", (req, res) => {
 });
 
 app.use((req, res, next) => {
-    if (req.isAuthenticated()) return next();
-    return res.redirect("/");
+    if (req.isAuthenticated()) next();
+    else return res.redirect("/");
 });
 
 app.get("/cart", (req, res) => {
+    let injectedValue: CartInterface[] = [];
     OrderManager.getInstance().findUserOrder(req.user.id).flatMap(orders => {
         return Observable.forkJoin(orders.map(order => order.getCartInterface()));
     }).subscribe(orders => {
-        return res.status(200).render("cart", {
-            products: orders,
-            status: req.isAuthenticated()
-        });
+        injectedValue = orders
     }, err => {
-        res.status(500).send(err);
+        return res.status(500).send(err);
     }, () => {
         return res.status(200).render("cart", {
-            products: [],
+            products: injectedValue,
             status: req.isAuthenticated()
         });
     });

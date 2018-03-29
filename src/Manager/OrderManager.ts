@@ -35,9 +35,9 @@ export class OrderManager {
             this.db.findOne({
                 userID: userID,
                 stockID: stockID
-            }, (err, document) => {
+            }, {}, (err, document) => {
                 if (err) observer.onError(err);
-                if (document) observer.onNext(true);
+                if (document !== null) observer.onNext(true);
                 else observer.onNext(false);
                 observer.onCompleted();
             });
@@ -91,10 +91,11 @@ export class OrderManager {
         });
     }
 
-    delete(id: string): Observable<number> {
+    delete(stockID: string, userID: string): Observable<number> {
         return Observable.create(observer => {
             this.db.remove({
-                _id: id
+                stockID: stockID,
+                userID: userID
             }, {}, (err, number) => {
                 if (err) observer.onError(err);
                 observer.onNext(number);
@@ -112,7 +113,8 @@ export class OrderManager {
                     $set: {
                         quantity: quantity
                     }
-                }, {}, (err, numberOfUpdate) => {
+                }, {
+                }, (err, numberOfUpdate) => {
                     if (err) observer.onError(err);
                     observer.onNext(true);
                     observer.onCompleted();
@@ -135,11 +137,12 @@ interface OrderInterface {
     quantity: number
 }
 
-interface CartInterface {
+export interface CartInterface {
     imgURL: string,
     name: string,
     price: number,
-    quantity: number
+    quantity: number,
+    stockID: string
 }
 
 export class Order {
@@ -158,7 +161,7 @@ export class Order {
         return this.order._id;
     }
 
-    getQuantity(): number{
+    getQuantity(): number {
         return this.order.quantity
     }
 
@@ -168,7 +171,8 @@ export class Order {
                 imgURL: stock.getInterface().imgURL,
                 name: stock.getInterface().name,
                 price: stock.getInterface().price,
-                quantity: this.order.quantity
+                quantity: this.order.quantity,
+                stockID: this.order.stockID
             }
         });
     }

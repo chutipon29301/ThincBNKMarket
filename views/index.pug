@@ -139,20 +139,9 @@ html(lang='en')
 														i.icon-wishlist.icon_heart.dis-none(aria-hidden='true')
 													.block2-btn-addcart.w-size1.trans-0-4
 														// Button
-														script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
-														script.
-															var a = document.getElementsByClassName("a");
-															$(document).ready(function() {
-																console.log(a.length)
-																for(let i=0;i<a.length;i++){
-																	console.log(a[i].id)
-																	$(a[i].id).click(function(){
-																		console.log("click"+a[i].id)
-																	});
-																}
-															});
-														button.flex-c-m.size1.bg4.bo-rad-23.hov1.s-text1.trans-0-4.a(id=product.name)
-															| Add to Cart
+														a(href="/order/addToCart?id=" + product._id)
+															button.flex-c-m.size1.bg4.bo-rad-23.hov1.s-text1.trans-0-4.a(id=product.name)
+																| Add to Cart
 											.block2-txt.p-t-20
 												a.block2-name.dis-block.s-text3.p-b-5(href='#')
 													= product.name
